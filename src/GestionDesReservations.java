@@ -1,5 +1,6 @@
-package gestionnaires;
 
+
+import java.util.ArrayList;
 import java.util.Date;
 
 public class GestionDesReservations {
@@ -10,14 +11,26 @@ public class GestionDesReservations {
 	 * @return int le numero de la reservation (ref_resa)
 	 */
 	public int reserver(Salle salle, Demandeur demandeur,
-			ArrayListe<Materiel> materiels, Duree duree,
+			ArrayList<Materiel> materiels, Duree duree,
 			Manifestation manifestation, Date date) {
 		return 0;
 
 	}
 
 	// consulter une reservation
-	public void consulter() {
+	public void consulterParNumero() {
+
+	}
+	
+	public void consulterParDemandeur() {
+
+	}
+	
+	public void consulterParDate() {
+
+	}
+	
+	public void consulterParSalle() {
 
 	}
 
