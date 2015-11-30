@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class GestionnaireMateriel {
+public class GestionnaireMateriaux {
 
 	private ArrayList<Materiel> materiels;
 	private ArrayList<TypeMateriel> typesMateriel;

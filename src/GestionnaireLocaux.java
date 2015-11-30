@@ -1,24 +1,11 @@
 import java.util.ArrayList;
+import java.util.List;
 
-public class GestionDesLocaux {
+public class GestionnaireLocaux {
 
-	private ArrayList<Salle> listeDesSalles;
-	private ArrayList<Batiment> listeDesBatiments;
-	private GestionnaireDesMateriaux gestionnaireDesMateriaux;
-	private GestionnaireDesReservations gestionnaireDesReservations;
+	private List<Salle> listeDesSalles = new ArrayList<Salle>();
+	private List<Batiment> listeDesBatiments = new ArrayList<Batiment>();
 
-	public GestionDesLocaux() {
-		listeDesSalles = new ArrayList<Salle>();
-	}
-
-	/*
-	 * LE numero du batiment est saisi ou choisi dans une liste de batiments
-	 * existant. Si le batiment n'existe pas, on doit d'abord le créer. Le type
-	 * est ensuite donné (numéro), ou choisi dans une liste. Si le type n'existe
-	 * pas on doit d'abord le créer. Lorsque le bâtiment et le type sont
-	 * correct, le numéro de la salle et de l'étage sont saisis, ainsi que la
-	 * superficie.
-	 */
 	/**
 	 * Ajoute une salle, créer une nouvelle salle si l'ajout c'est bien passé.
 	 * 
@@ -32,28 +19,67 @@ public class GestionDesLocaux {
 	 *            int numero de l'étage
 	 * @param superficie
 	 *            int superficie de la salle
-	 * @return boolean retourne true si la salle a été ajoutée, false sinon.
+	 * @return Salle retourne la salle ajoutée
+	 * @throws Exception
+	 *             le batiment dans lequel la nouvelle salle est ajoutée
+	 *             n'existe pas
 	 */
-	public void addSalle(int nuBatiment, int nuType, int nuSalle, int nuEtage,
-			int superficie) {
-		listeDesSalles.add(new Salle(this.searchBatimentParNumero(nuBatiment),
-				nuType, nuSalle, nuEtage, superficie));
+	public Salle addSalle(int nuBatiment, int nuType, int nuSalle, int nuEtage,
+			int superficie) throws Exception {
+		Salle s = new Salle(this.getBatimentByNumero(nuBatiment), nuType,
+				nuSalle, nuEtage, superficie);
+		listeDesSalles.add(s);
+		return s;
 	}
-	
-	public void addBatiment(String nomBat, String adresse){
-		listeDesBatiments.add(new Batiment(nomBat, adresse));
+
+	/**
+	 * ajoute un batiment a la liste des batiments du gestionnaire de locaux
+	 * 
+	 * @param nomBat
+	 *            string le nom du batiment
+	 * @param adresse
+	 *            string l'adresse du batiment
+	 * @return Batiment retourne le batiment ajouté.
+	 */
+	public Batiment addBatiment(String nomBat, String adresse) {
+		Batiment b = new Batiment(nomBat, adresse);
+		listeDesBatiments.add(b);
+		return b;
 	}
-	
-	public boolean existSalle(Salle salle){
+
+	/**
+	 * Verifie l'existance de salle
+	 * 
+	 * @param salle
+	 *            Salle
+	 * @return boolean retourne vrai si la salle fait partie de la liste des
+	 *         salles du gestionnaire de locaux, faux sinon.
+	 */
+	public boolean existSalle(Salle salle) {
 		return listeDesSalles.contains(salle);
 	}
-	
-	public boolean existBatiment(Batiment bat){
+
+	/**
+	 * vérifie l'existence de bat
+	 * 
+	 * @param bat
+	 *            Batiment
+	 * @return boolean retourne true si le batiment fait partie de la liste des
+	 *         batiments du gestionnaire de locaux, false sinon.
+	 */
+	public boolean existBatiment(Batiment bat) {
 		return listeDesBatiments.contains(bat);
 	}
 
-	public ArrayList<Salle> searchSalleParBatiment(Batiment bat) {
-		ArrayList<Salle> listeRetour = new ArrayList<Salle>();
+	/**
+	 * renvoie la liste des salles du batiment bat
+	 * 
+	 * @param bat
+	 *            Batiment
+	 * @return List<Salle> la liste des salles du batiment bat
+	 */
+	public List<Salle> getSalleByBatiment(Batiment bat) {
+		List<Salle> listeRetour = new ArrayList<Salle>();
 		for (Salle salle : listeDesSalles) {
 			if (salle.getNo_bat() == bat.getNo_bat()) {
 				listeRetour.add(salle);
@@ -62,8 +88,15 @@ public class GestionDesLocaux {
 		return listeRetour;
 	}
 
-	public ArrayList<Salle> searchSalleParEtage(int nuEtage) {
-		ArrayList<Salle> listeRetour = new ArrayList<Salle>();
+	/**
+	 * renvoie la liste des salle aux etages numéro nuEtage
+	 * 
+	 * @param nuEtage
+	 *            int numéro de l'étage
+	 * @return List<Salle> la liste des salles aux étages numéro nuEtage
+	 */
+	public List<Salle> getSalleByEtage(int nuEtage) {
+		List<Salle> listeRetour = new ArrayList<Salle>();
 		for (Salle salle : listeDesSalles) {
 			if (salle.getNo_etage() == nuEtage) {
 				listeRetour.add(salle);
@@ -72,8 +105,15 @@ public class GestionDesLocaux {
 		return listeRetour;
 	}
 
-	public ArrayList<Salle> searchSalleParNumero(int nuSalle) {
-		ArrayList<Salle> listeRetour = new ArrayList<Salle>();
+	/**
+	 * renvoie la liste des Salles de numero nuSalle
+	 * 
+	 * @param nuSalle
+	 *            int numéro de la salle
+	 * @return Liste<Salle> la liste des salles de numéro nuSalle
+	 */
+	public List<Salle> getSalleByNumero(int nuSalle) {
+		List<Salle> listeRetour = new ArrayList<Salle>();
 		for (Salle salle : listeDesSalles) {
 			if (salle.getNo_salle() == nuSalle) {
 				listeRetour.add(salle);
@@ -82,8 +122,15 @@ public class GestionDesLocaux {
 		return listeRetour;
 	}
 
-	public ArrayList<Salle> searchSalleParType(TypeSalle type) {
-		ArrayList<Salle> listeRetour = new ArrayList<Salle>();
+	/**
+	 * renvoie la liste des Salles par type de Salle
+	 * 
+	 * @param type
+	 *            TypeSalle un type de salle
+	 * @return List<Salle> la liste des salles de type type
+	 */
+	public List<Salle> getSalleByType(TypeSalle type) {
+		List<Salle> listeRetour = new ArrayList<Salle>();
 		for (Salle salle : listeDesSalles) {
 			if (salle.getType() == type) {
 				listeRetour.add(salle);
@@ -92,29 +139,121 @@ public class GestionDesLocaux {
 		return listeRetour;
 	}
 
-	public void addMateriel(Salle salleMaj, Materiel materielAAjouter) {
+	/**
+	 * renvoie la liste des Batiments de nom nomBatiment
+	 * 
+	 * @param nomBatiment
+	 *            String le nom du batiment recherché
+	 * @return List<Batiment> la liste des batiments de nom nomBatiment
+	 */
+	public List<Batiment> getBatimentByNom(String nomBatiment) {
+		List<Batiment> listeRetour = new ArrayList<Batiment>();
+		for (Batiment bat : listeDesBatiments) {
+			if (bat.getNom() == nomBatiment) {
+				listeRetour.add(bat);
+			}
+		}
+		return listeRetour;
+	}
+
+	/**
+	 * renvoie le batiment de numéro nuBatiment et lève une erreur si le
+	 * batiment n'existe pas
+	 * 
+	 * @param nuBatiment
+	 *            le numéro du batiment
+	 * @return Batiment
+	 * @throws Exception
+	 *             le batiment de numéro nuBatiment n'existe pas
+	 */
+	public Batiment getBatimentByNumero(int nuBatiment) throws Exception {
+		for (Batiment bat : listeDesBatiments) {
+			if (bat.getNo_bat() == nuBatiment) {
+				return bat;
+			}
+		}
+		throw new Exception("le batiment numéro " + nuBatiment
+				+ " n'existe pas.");
+	}
+
+	/**
+	 * renvoie la liste des batiments de l'adresse adresseBatiment
+	 * 
+	 * @param adresseBatiment
+	 *            String une adresse de batiment
+	 * @return List<Batiment> la liste des batiments à l'adresse adresseBatiment
+	 */
+	public List<Batiment> getBatimentByAdresse(String adresseBatiment) {
+		List<Batiment> listeRetour = new ArrayList<Batiment>();
+		for (Batiment bat : listeDesBatiments) {
+			if (bat.getAdresse() == adresseBatiment) {
+				listeRetour.add(bat);
+			}
+		}
+		return listeRetour;
+	}
+
+	// TODO : Léo State de matériel fixe/mobile
+	/**
+	 * ajoute un matériel à une salle
+	 * 
+	 * @param salleMaj
+	 *            Salle la salle dans laquelle ajouté le materiel
+	 *            materielAAjouter
+	 * @param materielAAjouter
+	 *            Materiel le materiel a ajouter dans la salle
+	 * @throws Exception
+	 *             Si la salle n'existe pas, le matériel n'est pas ajouté.
+	 */
+	public void addMateriel(Salle salleMaj, Materiel materielAAjouter)
+			throws Exception {
+		boolean materielAjoute = false;
 		for (Salle salle : listeDesSalles) {
 			if (salleMaj.equals(salle)) {
 				salle.addMateriel(materielAAjouter);
+				materielAjoute = true;
 			}
+		}
+
+		if (!materielAjoute) {
+			throw new Exception(
+					"Le materiel n'a pas été ajouté car la salle n'existe pas");
 		}
 	}
 
-	
 	// TODO : LEO
 	public void removeMateriel(Salle salleMaj, Materiel materielASupprimer) {
-//		for (Salle salle : listeDesSalles) {
-//			if (salleMaj.equals(salle)) {
-//				salle.getMateriauxFixes().remove(materielASupprimer);
-//			}
-//		}
+		// for (Salle salle : listeDesSalles) {
+		// if (salleMaj.equals(salle)) {
+		// salle.getMateriauxFixes().remove(materielASupprimer);
+		// }
+		// }
 	}
-	
-	public void removeSalle(Salle salle) throws Exception{
-		if (salle.getReservations().isEmpty()){
+
+	/**
+	 * supprime une salle si elle n'a pas de réservation de prévue
+	 * 
+	 * @param salle
+	 *            Salle salle a supprimer
+	 * @throws Exception
+	 *             la salle a encore des réservations
+	 */
+	public void removeSalle(Salle salle) throws Exception {
+		if (salle.getReservations().isEmpty()) {
 			listeDesSalles.remove(salle);
+		} else {
+			throw new Exception("La salle a encore des réservations");
 		}
-		else throw new Exception("La salle a encore des réservations");
+	}
+
+	/**
+	 * supprime le batiment batiment
+	 * 
+	 * @param batiment
+	 *            Batiment batiment a supprimer
+	 */
+	public void removeBatiment(Batiment batiment) {
+		listeDesBatiments.remove(batiment);
 	}
 
 }

@@ -16,7 +16,7 @@ public class Salle {
 	 * - le numero du type est saisi ou choisi dans une liste (il doit exister
 	 * ou on doit le créer)
 	 */
-	public Salle(Batiment batiment, TypeSalle type, int num_salle,
+	public Salle(Batiment batiment, int type, int num_salle,
 			int num_etage, int superficie) {
 
 	}
